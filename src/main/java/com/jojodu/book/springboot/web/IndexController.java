@@ -1,5 +1,6 @@
 package com.jojodu.book.springboot.web;
 
+import com.jojodu.book.springboot.config.auth.LoginUser;
 import com.jojodu.book.springboot.config.auth.dto.SessionUser;
 import com.jojodu.book.springboot.service.PostsService;
 import com.jojodu.book.springboot.web.dto.PostsResponseDto;
@@ -19,9 +20,10 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){
+    public String index(Model model, @LoginUser SessionUser user){
             model.addAttribute("posts", postsService.findAllDesc());
-            SessionUser user = (SessionUser) httpSession.getAttribute("user");
+            //@LoginUser 어노테이션으로 반복된 코드 최소화
+            //SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
             if (user != null){
                 model.addAttribute("userName", user.getName());
